@@ -1,3 +1,6 @@
+# Version
+export VERSION="1.0.0"
+
 # Get the current tmux session name.
 CURRENT_SESSION=$(
 	if [ "$(tmux display-message -p "#{session_grouped}")" = 0 ]; then

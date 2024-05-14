@@ -6,13 +6,14 @@ source common_utils.sh
 declare S=$SEPARATOR
 #
 # Tmux format string for windows
-WINDOW_FORMAT="window${S}#{window_index}${S}#{window_name}${S}#{window_layout}${S}#{window_active}"
+WINDOW_FORMAT="window$S#{window_index}$S#{window_name}$S#{window_layout}$S#{window_active}"
 
 # Tmux format string for panes
-PANE_FORMAT="pane${S}#{pane_id}${S}#{pane_index}${S}#{pane_current_path}${S}#{pane_active}${S}#{window_index}${S}#{pane_pid}"
+PANE_FORMAT="pane$S#{pane_id}$S#{pane_index}$S#{pane_current_path}$S#{pane_active}$S#{window_index}$S#{pane_pid}"
 
 start_spinner "Saving current session"
-tmux list-windows -F "$WINDOW_FORMAT" > "$NEW_SAVE_FILE"
+echo "version$S$VERSION" > "$NEW_SAVE_FILE"
+tmux list-windows -F "$WINDOW_FORMAT" >> "$NEW_SAVE_FILE"
 tmux list-panes -s -F "$PANE_FORMAT" | while IFS="$SEPARATOR" read -r line; do
 	awk -v command="$(declare full_command
 			full_command="$(ps -ao "ppid,args" \
