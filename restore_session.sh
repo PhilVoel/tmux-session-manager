@@ -31,8 +31,8 @@ elif ! tmux list-sessions -F "#{session_name}" | grep -xq "$session_name"; then
 			tmux new-window -k -t "$session_name:$window_index" -n "$window_name"
 		elif grep -q "^pane" <<< "$line"; then
 			IFS=$SEPARATOR read -r _ pane_index pane_current_path pane_active window_index command <<< "$line"
-			if [[ "$pane_index" == "0" ]]; then
-				tmux send-keys -t "$session_name:$window_index" "cd $pane_current_path" Enter C-l
+			if [[ "$pane_index" == "$(get_tmux_option base-index 0)" ]]; then
+				tmux send-keys -t "$session_name:$window_index" "cd \"$pane_current_path\"" Enter C-l
 			else
 				tmux split-window -d -t "$session_name:$window_index" -c "$pane_current_path"
 			fi
