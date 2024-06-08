@@ -45,7 +45,7 @@ elif ! tmux list-sessions -F "#{session_name}" | grep -xq "$session_name"; then
 		fi
 	done < "${SAVE_DIR}/${session_name}_last"
 	while read -r line; do
-		if grep -q "^window"; then
+		if grep -q "^window" <<< "$line"; then
 			IFS=$SEPARATOR read -r _ window_index _ window_layout window_active <<< "$line"
 			tmux select-layout -t "$session_name:$window_index" "$window_layout"
 			if [[ "$window_active" == "1" ]]; then
