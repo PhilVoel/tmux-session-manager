@@ -9,7 +9,7 @@ bindings=$(get_tmux_option "@session-manager-save-key" "C-s")
 for key in $bindings; do
 	tmux bind-key "$key" run-shell "$(pwd)/save_session.sh"
 done
-bindings=$(get_tmux_option "@session-manager-save-key-root" "C-s")
+bindings=$(get_tmux_option "@session-manager-save-key-root" "")
 for key in $bindings; do
 	tmux bind-key -n "$key" run-shell "$(pwd)/save_session.sh"
 done
@@ -18,7 +18,7 @@ bindings=$(get_tmux_option "@session-manager-restore-key" "C-r")
 for key in $bindings; do
 	tmux bind-key "$key" run-shell "tmux display-popup -E '$(pwd)/restore_session.sh'"
 done
-bindings=$(get_tmux_option "@session-manager-restore-key-root" "C-r")
+bindings=$(get_tmux_option "@session-manager-restore-key-root" "")
 for key in $bindings; do
 	tmux bind-key -n "$key" run-shell "tmux display-popup -E '$(pwd)/restore_session.sh'"
 done
