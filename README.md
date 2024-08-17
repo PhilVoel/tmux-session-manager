@@ -48,14 +48,14 @@ Reload TMUX environment with `$ tmux source ~/.tmux.conf`.
 
 You can customize the plugin by setting the following options in your `.tmux.conf`:
 
-| Configuration option                       | Options               | Default value                   | Description                                                                                                 |
-|------------------------------------------- | --------------------- | ------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `session-manager-save-dir`                 | `~/any/path/you/like` | `~/.local/share/tmux/sessions/` | Specify the directory where session data is saved.                                                          |
-| `session-manager-save-key`                 | Any key binding       | `C-s`                           | Which key binding to set for saving the current session.                                                    |
-| `session-manager-save-key-root`            | Any key binding       | Not set                         | Which key binding to set in root table for saving the current session. Using `prefix` is **not** necessary. |
-| `session-manager-restore-key`              | Any key binding       | `C-r`                           | Which key binding to set for restoring a session.                                                           |
-| `session-manager-restore-key-root`         | Any key binding       | Not set                         | Which key binding to set in root table for restoring a session. Using `prefix` is **not** necessary.        |
-| `session-manager-disable-nixos-nvim-check` | `on` or `off`         | `off`                           | Disable the check for Neovim on NixOS.                                                                      |
+| Configuration option                       | Options               | Default value                   | Description                                                                                                          |
+|------------------------------------------- | --------------------- | ------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `session-manager-save-dir`                 | `~/any/path/you/like` | `~/.local/share/tmux/sessions/` | Specify the directory where session data is saved.                                                                   |
+| `session-manager-save-key`                 | Any key binding       | `C-s`                           | Which key binding to set for saving the current session.                                                             |
+| `session-manager-save-key-root`            | Any key binding       | Not set                         | Which key binding to set in root table for saving the current session. Using `prefix` is **not** necessary.          |
+| `session-manager-restore-key`              | Any key binding       | `C-r`                           | Which key binding to set for restoring or switching to a session.                                                    |
+| `session-manager-restore-key-root`         | Any key binding       | Not set                         | Which key binding to set in root table for restoring or switching to a session. Using `prefix` is **not** necessary. |
+| `session-manager-disable-nixos-nvim-check` | `on` or `off`         | `off`                           | When `on`, disable the check for Neovim on NixOS.                                                                    |
 
 ## Bug reports and contributions
 
@@ -63,7 +63,7 @@ I'm always thankful for bug reports and new ideas. For details, check the [guide
 
 ## Credits
 
-As already stated, this plugin is heavily inspired by [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect) and I've taken liberties with some of their code while rewriting.
+As already stated, this plugin is heavily inspired by [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect) and I've taken small liberties with some of their code while rewriting.
 
 ## License
 This software is licensed under [MIT](LICENSE.md).
