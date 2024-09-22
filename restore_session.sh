@@ -22,7 +22,7 @@ get_all_sessions() {
 session_name="$(get_all_sessions | sort | uniq | fzf)"
 if [[ -z "$session_name" ]]; then
 	exit 0
-elif ! tmux list-sessions -F "#{session_name}" | grep -xq "$session_name"; then
+elif ! tmux has-session -t "$session_name"; then
 	start_spinner "Restoring session $session_name"
 	tmux new-session -ds "$session_name" -c "$HOME"
 	while read -r line; do
