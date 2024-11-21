@@ -1,5 +1,5 @@
 # Version
-export VERSION="1.0.2"
+export VERSION="1.0.3"
 
 # Get the current tmux session name.
 CURRENT_SESSION=$(

@@ -32,7 +32,7 @@ elif ! tmux has-session -t "$session_name"; then
 		elif grep -q "^pane" <<< "$line"; then
 			IFS=$SEPARATOR read -r _ pane_index pane_current_path pane_active window_index command <<< "$line"
 			if [[ "$pane_index" == "$(get_tmux_option base-index 0)" ]]; then
-				tmux send-keys -t "$session_name:$window_index" "cd \"$pane_current_path\"" Enter C-l
+				tmux send-keys -t "$session_name:$window_index" "cd \"$pane_current_path\"" Enter "clear" Enter
 			else
 				tmux split-window -d -t "$session_name:$window_index" -c "$pane_current_path"
 			fi
