@@ -1,5 +1,5 @@
 # Version
-export VERSION="1.0.3"
+export VERSION="1.0.4"
 
 # Get the current tmux session name.
 CURRENT_SESSION=$(
@@ -18,8 +18,7 @@ export SEPARATOR=$'\t'
 get_tmux_option() {
 	local option_name="$1"
 	local default_value="$2"
-	local tmux_value
-	tmux_value=$(tmux show-option -gqv "$option_name")
+	local -r tmux_value=$(tmux show-option -gqv "$option_name")
 	if [ -n "$tmux_value" ]; then
 		echo "$tmux_value"
 	else

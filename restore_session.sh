@@ -3,15 +3,13 @@ cd "$(dirname "${BASH_SOURCE[0]}")" || exit
 source common_utils.sh
 
 get_all_sessions() {
-	local all_files
-	all_files="$(ls "$SAVE_DIR")"
+	local -r all_files="$(ls "$SAVE_DIR")"
 	for file in $all_files; do
 		if [[ "$file" =~ _last$ ]] && [[ "${file%%_last}" != "$CURRENT_SESSION" ]]; then
 			echo "${file%%_last}"
 		fi
 	done
-	local all_sessions
-	all_sessions="$(tmux list-sessions -F "#{session_name}")"
+	local -r all_sessions="$(tmux list-sessions -F "#{session_name}")"
 	for session in $all_sessions; do
 		if [[ "$session" != "$CURRENT_SESSION" ]]; then
 			echo "$session"
