@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+if ! command -v fzf 1>/dev/null; then
+	tmux display-message "Error: fzf was not found in PATH. Required for tmux-session-manager to work"
+	exit
+fi
+
 cd "$(dirname "${BASH_SOURCE[0]}")" || exit
 source common_utils.sh
 

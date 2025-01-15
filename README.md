@@ -18,9 +18,13 @@ This plugin tries to save the current session status as precisely as possible. H
 - programs running within a pane
   - taking care of NixOS' Neovim wrapper. As NixOS wraps some programs and starts them with additional arguments, the plugin removes those arguments when it detects Neovim running on NixOS. If you're using the unwrapped version of Neovim, you can disable this check in the [Configuration](#Configuration).
 
-## Requirements
+## Dependencies
 
-Besides the obvious ([`tmux`](https://github.com/tmux/tmux)) and software that should be found on any *nix or remotely POSIX oriented system, this plugin only requires [`fzf`](https://github.com/junegunn/fzf) to be installed.
+- [`tmux`](https://github.com/tmux/tmux) (3.2 or higher)
+- [`fzf`](https://github.com/junegunn/fzf) (0.13.0 or higher)
+
+> [!note]
+> This plugin only uses standard functionality in fzf which was present in its initial release. In theory, every version should work but this is untested.
 
 ## Installation
 
