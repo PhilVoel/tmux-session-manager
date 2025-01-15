@@ -60,6 +60,7 @@ You can customize the plugin by setting the following options in your `.tmux.con
 | `session-manager-restore-key`              | Any key binding       | `C-r`                           | Which key binding to set for restoring or switching to a session.                                                    |
 | `session-manager-restore-key-root`         | Any key binding       | Not set                         | Which key binding to set in root table for restoring or switching to a session. Using `prefix` is **not** necessary. |
 | `session-manager-disable-nixos-nvim-check` | `on` or `off`         | `off`                           | When `on`, disable the check for Neovim on NixOS.                                                                    |
+| `session-manager-disable-fzf-warning`      | `on` or `off`         | `off`                            | When `on`, disable the check for fzf on startup.                                                                     |
 
 ## Bug reports and contributions
 
