@@ -19,7 +19,26 @@ get_all_sessions() {
 	done
 }
 
-session_name="$(get_all_sessions | sort | uniq | fzf)"
+select_session() {
+	local -r sessions=$(get_all_sessions | sort | uniq)
+	if command -v fzf 1>/dev/null; then
+		echo "$sessions" | fzf
+	else
+		local -r session_count=$(echo "$sessions" | wc -w)
+		local -r cancel=$((session_count+1))
+		PS3="Select session (or $cancel to cancel): "
+		select session in $sessions; do
+			if (( REPLY == cancel )); then
+				exit
+			elif (( REPLY > 0 && REPLY <= session_count )); then
+				echo "$session"
+				break
+			fi
+		done
+	fi
+}
+
+session_name="$(select_session)"
 if [[ -z "$session_name" ]]; then
 	exit 0
 elif ! tmux has-session -t "$session_name"; then

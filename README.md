@@ -21,7 +21,7 @@ This plugin tries to save the current session status as precisely as possible. H
 ## Dependencies
 
 - [`tmux`](https://github.com/tmux/tmux) (3.2 or higher)
-- [`fzf`](https://github.com/junegunn/fzf) (0.13.0 or higher)
+- [`fzf`](https://github.com/junegunn/fzf) (0.13.0 or higher; optional but recommended)
 
 > [!note]
 > This plugin only uses standard functionality in fzf which was present in its initial release. In theory, every version should work but this is untested.
