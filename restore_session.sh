@@ -22,13 +22,11 @@ select_session() {
 	if command -v fzf 1>/dev/null; then
 		echo "$sessions" | fzf
 	else
-		local -r session_count=$(echo "$sessions" | wc -w)
-		local -r cancel=$((session_count+1))
-		PS3="Select session (or $cancel to cancel): "
+		PS3="Select session or 0 to cancel): "
 		select session in $sessions; do
-			if (( REPLY == cancel )); then
+			if (( REPLY == 0 )); then
 				exit
-			elif (( REPLY > 0 && REPLY <= session_count )); then
+			elif (( REPLY > 0 && REPLY <= $(echo "$sessions" | wc -w) )); then
 				echo "$session"
 				break
 			fi
