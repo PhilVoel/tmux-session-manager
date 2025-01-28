@@ -23,7 +23,7 @@ tmux list-panes -s -F "$PANE_FORMAT" | while IFS="$SEPARATOR" read -r line; do
 			if [[ "$(grep ^ID= /etc/os-release | cut -d'=' -f2)" == "nixos" \
 				&& "$(get_tmux_option "@session-manager-diable-nixos-nvim-check" "off")" != "on" \
 				&& "$(cut -d' ' -f1 <<< "$full_command" | xargs basename)" == "nvim" ]]; then
-				cut -d' ' -f1,11- <<< "$full_command"
+				cut -d' ' -f1,11- <<< "$full_command" | cut -d'/' -f6-
 			else
 				echo "$full_command"
 			fi)" \
