@@ -42,7 +42,7 @@ new_spinner() {
 	local current=0
 	local chars="/-\|"
 	while true; do
-		tmux display-message "${chars:$current:1} $1"
+		tmux display-message -- "${chars:$current:1} $1"
 		current=$(((current + 1) % 4))
 		sleep 0.1
 	done
