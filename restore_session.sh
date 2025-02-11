@@ -22,7 +22,7 @@ select_session() {
 	if command -v fzf 1>/dev/null; then
 		echo "$sessions" | fzf
 	else
-		PS3="Select session or 0 to cancel): "
+		PS3="Select session or 0 to cancel: "
 		select session in $sessions; do
 			if (( REPLY == 0 )); then
 				exit

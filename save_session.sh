@@ -4,7 +4,7 @@ source common_utils.sh
 
 # Separator for tmux format strings
 declare S=$SEPARATOR
-#
+
 # Tmux format string for windows
 WINDOW_FORMAT="window$S#{window_index}$S#{window_name}$S#{window_layout}$S#{window_active}"
 
