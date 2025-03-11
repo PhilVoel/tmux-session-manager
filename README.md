@@ -3,7 +3,8 @@
 We all love tmux. But whenever you close a session (for instance, by restarting your system), you lose all the windows, panes and programs you had open.\
 The easy solution: Just save the entire tmux environment and restore it (that's what [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect) does).\
 But what if you have multiple sessions that you use for multiple projects? What if you don't need all those sessions open at the same time? What if you don't *want* them open because your laptop is a decade old and you can't afford to start dozens of programs at once?\
-This plugin aims to solve that problem by only saving the session you are currently in as well as providing a fzf-based session switcher that allows you to not only switch between running sessions but also seamlessly restore a previously saved session and switch to it.
+This plugin aims to solve that problem by only saving the session you are currently in as well as providing a fzf-based session switcher that allows you to not only switch between running sessions but also seamlessly restore a previously saved session and switch to it.\
+You can also archive sessions you'd like to keep but won't return to for a while. Archived sessions don't show up in the regular restore selection and can be unarchived whenever you're ready to open them again.
 
 Originally just a fork of `tmux-resurrect`, this plugin has since been rewritten from scratch (although the inspiration is still obvious and I might have borrowed from them in a few places) to be a more compact codebase that I can more easily maintain and extend if necessary.
 
@@ -52,15 +53,19 @@ Reload TMUX environment with `$ tmux source ~/.tmux.conf`.
 
 You can customize the plugin by setting the following options in your `.tmux.conf`:
 
-| Configuration option                       | Options               | Default value                   | Description                                                                                                          |
-|------------------------------------------- | --------------------- | ------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `session-manager-save-dir`                 | `~/any/path/you/like` | `~/.local/share/tmux/sessions/` | Specify the directory where session data is saved.                                                                   |
-| `session-manager-save-key`                 | Any key binding       | `C-s`                           | Which key binding to set for saving the current session.                                                             |
-| `session-manager-save-key-root`            | Any key binding       | Not set                         | Which key binding to set in root table for saving the current session. Using `prefix` is **not** necessary.          |
-| `session-manager-restore-key`              | Any key binding       | `C-r`                           | Which key binding to set for restoring or switching to a session.                                                    |
-| `session-manager-restore-key-root`         | Any key binding       | Not set                         | Which key binding to set in root table for restoring or switching to a session. Using `prefix` is **not** necessary. |
-| `session-manager-disable-nixos-nvim-check` | `on` or `off`         | `off`                           | When `on`, disable the check for Neovim on NixOS.                                                                    |
-| `session-manager-disable-fzf-warning`      | `on` or `off`         | `off`                            | When `on`, disable the check for fzf on startup.                                                                     |
+| Configuration option                       | Options               | Default value                   | Description                                                                                                             |
+|------------------------------------------- | --------------------- | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `session-manager-save-dir`                 | `~/any/path/you/like` | `~/.local/share/tmux/sessions/` | Specify the directory where session data is saved.                                                                      |
+| `session-manager-save-key`                 | Any key binding       | `C-s`                           | Which key binding to set for saving the current session.                                                                |
+| `session-manager-save-key-root`            | Any key binding       | Not set                         | Which key binding to set in root table for saving the current session. Using `prefix` is **not** necessary.             |
+| `session-manager-restore-key`              | Any key binding       | `C-r`                           | Which key binding to set for restoring or switching to a session.                                                       |
+| `session-manager-restore-key-root`         | Any key binding       | Not set                         | Which key binding to set in root table for restoring or switching to a session. Using `prefix` is **not** necessary.    |
+| `session-manager-archive-key`              | Any key binding       | Not set                         | Which key binding to set for archiving a session.                                                                       |
+| `session-manager-archive-key-root`         | Any key binding       | Not set                         | Which key binding to set in root table for archiving a session. Using `prefix` is **not** necessary.                    |
+| `session-manager-unarchive-key`            | Any key binding       | Not set                         | Which key binding to set for unarchiving and switching to a session.                                                    |
+| `session-manager-unarchive-key-root`       | Any key binding       | Not set                         | Which key binding to set in root table for unarchiving and switching to a session. Using `prefix` is **not** necessary. |
+| `session-manager-disable-nixos-nvim-check` | `on` or `off`         | `off`                           | When `on`, disable the check for Neovim on NixOS.                                                                       |
+| `session-manager-disable-fzf-warning`      | `on` or `off`         | `off`                           | When `on`, disable the check for fzf on startup.                                                                        |
 
 ## Bug reports and contributions
 

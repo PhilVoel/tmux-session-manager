@@ -61,3 +61,22 @@ stop_spinner() {
 	kill "$SPINNER_PID"
 	tmux display-message "$1"
 }
+
+# Open selection for list of sessions
+# Usage: select_session "$(get_sessions)"
+select_session() {
+	local -r sessions=$(echo "$1" | sort | uniq)
+	if command -v fzf 1>/dev/null; then
+		echo "$sessions" | fzf
+	else
+		PS3="Select session or 0 to cancel: "
+		select session in $sessions; do
+			if (( REPLY == 0 )); then
+				exit
+			elif (( REPLY > 0 && REPLY <= $(echo "$sessions" | wc -w) )); then
+				echo "$session"
+				break
+			fi
+		done
+	fi
+}

@@ -12,6 +12,9 @@ WINDOW_FORMAT="window$S#{window_index}$S#{window_name}$S#{window_layout}$S#{wind
 PANE_FORMAT="pane$S#{pane_index}$S#{pane_current_path}$S#{pane_active}$S#{window_index}$S#{pane_pid}"
 
 start_spinner "Saving current session"
+if [[ -e "${NEW_SAVE_FILE}_archived" ]]; then
+	mv "${NEW_SAVE_FILE}_archived" "$NEW_SAVE_FILE"
+fi
 echo "version$S$VERSION" > "$NEW_SAVE_FILE"
 tmux list-windows -F "$WINDOW_FORMAT" >> "$NEW_SAVE_FILE"
 tmux list-panes -s -F "$PANE_FORMAT" | while IFS="$SEPARATOR" read -r line; do

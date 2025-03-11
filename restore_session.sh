@@ -17,27 +17,31 @@ get_all_sessions() {
 	done
 }
 
-select_session() {
-	local -r sessions=$(get_all_sessions | sort | uniq)
-	if command -v fzf 1>/dev/null; then
-		echo "$sessions" | fzf
-	else
-		PS3="Select session or 0 to cancel: "
-		select session in $sessions; do
-			if (( REPLY == 0 )); then
-				exit
-			elif (( REPLY > 0 && REPLY <= $(echo "$sessions" | wc -w) )); then
-				echo "$session"
-				break
-			fi
-		done
-	fi
+get_archived_sessions() {
+	local -r all_files="$(ls "$SAVE_DIR")"
+	for file in $all_files; do
+		if [[ "$file" =~ _last_archived$ ]]; then
+			echo "${file%%_last_archived}"
+		fi
+	done
 }
 
-session_name="$(select_session)"
+declare session_name
+if [[ "$1" == "--archived" ]]; then
+	session_name=$(select_session "$(get_archived_sessions)")
+else
+	session_name=$(select_session "$(get_all_sessions)")
+fi
+
 if [[ -z "$session_name" ]]; then
 	exit 0
-elif ! tmux has-session -t "$session_name" 2> /dev/null; then
+fi
+
+if [[ "$1" == "--archived" ]]; then
+	mv "$SAVE_DIR/${session_name}_last_archived" "$SAVE_DIR/${session_name}_last"
+fi
+
+if ! tmux has-session -t "$session_name" 2> /dev/null; then
 	start_spinner "Restoring session $session_name"
 	tmux new-session -ds "$session_name" -c "$HOME"
 	while read -r line; do
