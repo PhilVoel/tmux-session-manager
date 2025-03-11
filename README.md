@@ -4,7 +4,7 @@ We all love tmux. But whenever you close a session (for instance, by restarting 
 The easy solution: Just save the entire tmux environment and restore it (that's what [tmux-resurrect](https://github.com/tmux-plugins/tmux-resurrect) does).\
 But what if you have multiple sessions that you use for multiple projects? What if you don't need all those sessions open at the same time? What if you don't *want* them open because your laptop is a decade old and you can't afford to start dozens of programs at once?\
 This plugin aims to solve that problem by only saving the session you are currently in as well as providing a fzf-based session switcher that allows you to not only switch between running sessions but also seamlessly restore a previously saved session and switch to it.\
-You can also archive sessions you'd like to keep but won't return to for a while. Archived sessions don't show up in the regular restore selection and can be unarchived whenever you're ready to open them again.
+You can also archive sessions you'd like to keep but won't return to for a while. Archived sessions don't show up in the regular restore selection and can be unarchived whenever you're ready to open them again. If you won't need the session again, you can permanently delete it.
 
 Originally just a fork of `tmux-resurrect`, this plugin has since been rewritten from scratch (although the inspiration is still obvious and I might have borrowed from them in a few places) to be a more compact codebase that I can more easily maintain and extend if necessary.
 
@@ -64,6 +64,8 @@ You can customize the plugin by setting the following options in your `.tmux.con
 | `session-manager-archive-key-root`         | Any key binding       | Not set                         | Which key binding to set in root table for archiving a session. Using `prefix` is **not** necessary.                    |
 | `session-manager-unarchive-key`            | Any key binding       | Not set                         | Which key binding to set for unarchiving and switching to a session.                                                    |
 | `session-manager-unarchive-key-root`       | Any key binding       | Not set                         | Which key binding to set in root table for unarchiving and switching to a session. Using `prefix` is **not** necessary. |
+| `session-manager-delete-key`               | Any key binding       | Not set                         | Which key binding to set for deleting a saved session.                                                                  |
+| `session-manager-delete-key-root`          | Any key binding       | Not set                         | Which key binding to set in root table for deleting a saved session. Using `prefix` is **not** necessary.               |
 | `session-manager-disable-nixos-nvim-check` | `on` or `off`         | `off`                           | When `on`, disable the check for Neovim on NixOS.                                                                       |
 | `session-manager-disable-fzf-warning`      | `on` or `off`         | `off`                           | When `on`, disable the check for fzf on startup.                                                                        |
 

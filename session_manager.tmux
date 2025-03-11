@@ -49,3 +49,13 @@ bindings=$(get_tmux_option "@session-manager-unarchive-key-root" "")
 for key in $bindings; do
 	tmux bind-key -n "$key" run-shell "tmux display-popup -E '$(pwd)/restore_session.sh --archived'"
 done
+
+# Delete
+bindings=$(get_tmux_option "@session-manager-delete-key" "")
+for key in $bindings; do
+	tmux bind-key "$key" run-shell "tmux display-popup -E '$(pwd)/delete_session.sh'"
+done
+bindings=$(get_tmux_option "@session-manager-delete-key-root" "")
+for key in $bindings; do
+	tmux bind-key -n "$key" run-shell "tmux display-popup -E '$(pwd)/delete_session.sh'"
+done
