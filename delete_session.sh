@@ -3,12 +3,11 @@ cd "$(dirname "${BASH_SOURCE[0]}")" || exit
 source common_utils.sh
 
 get_saved_sessions() {
-	local -r all_files="$(ls "$SAVE_DIR")"
-	for file in $all_files; do
+	for file in "$SAVE_DIR"/*_last*; do
 		if [[ "$file" =~ _last$ ]]; then
-			echo "${file%%_last}"
-		elif [[ "$file" =~ _last_archived$ ]]; then
-			echo "${file%%_last_archived}"
+			basename "${file%%_last}"
+		else
+			basename "${file%%_last_archived}"
 		fi
 	done
 }

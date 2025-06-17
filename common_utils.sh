@@ -16,8 +16,8 @@ export SEPARATOR=$'\t'
 # Get the value of a tmux option or a default value if the option is not set.
 # Usage: get_tmux_option "name of option" "default value"
 get_tmux_option() {
-	local option_name="$1"
-	local default_value="$2"
+	local -r option_name="$1"
+	local -r default_value="$2"
 	local -r tmux_value=$(tmux show-option -gqv "$option_name")
 	if [ -n "$tmux_value" ]; then
 		echo "$tmux_value"
@@ -40,7 +40,7 @@ export LAST_SAVE_FILE="${SAVE_DIR}/${CURRENT_SESSION}_last"
 
 new_spinner() {
 	local current=0
-	local chars="/-\|"
+	local -r chars="/-\|"
 	while true; do
 		tmux display-message -- "${chars:$current:1} $1"
 		current=$(((current + 1) % 4))
