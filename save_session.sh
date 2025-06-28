@@ -18,18 +18,29 @@ fi
 echo "version$S$VERSION" > "$NEW_SAVE_FILE"
 tmux list-windows -F "$WINDOW_FORMAT" >> "$NEW_SAVE_FILE"
 tmux list-panes -s -F "$PANE_FORMAT" | while IFS="$SEPARATOR" read -r line; do
-	awk -v command="$(declare full_command
-			full_command="$(ps -ao "ppid,args" \
-				| sed "s/^ *//" \
-				| grep "^$(cut -f6 <<< "$line")" \
-				| cut -d' ' -f2-)"
-			if [[ "$(grep ^ID= /etc/os-release | cut -d'=' -f2)" == "nixos" \
-				&& "$(get_tmux_option "@session-manager-diable-nixos-nvim-check" "off")" != "on" \
-				&& "$(cut -d' ' -f1 <<< "$full_command" | xargs basename)" == "nvim" ]]; then
-				cut -d' ' -f1,11- <<< "$full_command" | cut -d'/' -f6-
-			else
-				echo "$full_command"
-			fi)" \
+	pids=$(ps -ao "ppid,pid" \
+		| sed "s/^ *//" \
+		| grep "^$(cut -f6 <<< "$line")" \
+		| rev \
+		| cut -d' ' -f1 \
+		| rev)
+	command="$(for pid in $pids; do
+		if [[ "$(grep ^ID= /etc/os-release | cut -d'=' -f2)" == "nixos" \
+			&& "$(get_tmux_option "@session-manager-diable-nixos-nvim-check" "off")" != "on" \
+			&& "$(cut -d' ' -f1 <<< "$(ps -p $pid -o cmd)" | tail +2 | xargs basename)" == "nvim" ]]; then
+			echo -n "nvim"
+			while read -r arg; do
+				if [ -n "$arg" ]; then
+					echo -n " '$arg'"
+				fi
+			done <<< "$(xargs -0L1 < /proc/$pid/cmdline | tail +8)"
+		else
+			while read -r arg; do
+				echo -n "'$arg' "
+			done <<< "$(xargs -0L1 < /proc/$pid/cmdline)"
+		fi
+	done)"
+	awk -v command="$command" \
 		'BEGIN {FS=OFS="\t"} {$6=command; print}'\
 		<<< "$line" >> "$NEW_SAVE_FILE"
 done
