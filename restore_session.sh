@@ -23,7 +23,7 @@ get_archived_sessions() {
 }
 
 # Checks if the first version is greater than the second
-is_version_geq() {
+is_version_gt() {
 	[[ "$(echo -e "$1\n$2" | sort -V | sed -n 2p)" != "$2" ]]
 }
 
@@ -42,7 +42,7 @@ if ! tmux has-session -t "$session_name" 2> /dev/null; then
 	session_file="$SAVE_DIR/${session_name}_last"
 	exec < "$session_file"
 	file_version="$(head -n1 | cut -d"$SEPARATOR" -f2)"
-	if is_version_geq "$file_version" "$VERSION"; then
+	if is_version_gt "$file_version" "$VERSION"; then
 		tmux display-message -d0 "#[bg=red]Error: File version is newer than the plugin's. Press ESC to quit."
 		exit 0
 	fi
@@ -51,12 +51,23 @@ if ! tmux has-session -t "$session_name" 2> /dev/null; then
 	fi
 
 	start_spinner "Restoring session $session_name"
-	tmux new-session -ds "$session_name" -c "$HOME"
+	session_path="$HOME"
+	if ! is_version_gt "1.1.0" "$file_version"; then
+		session_path="$(head -n1 | cut -d"$SEPARATOR" -f2)"
+	fi
+	tmux new-session -ds "$session_name" -c "$session_path"
+	declare -A window_layouts
+	declare active_window
 	while read -r line; do
 		case $line in
 			window*)
-				IFS=$SEPARATOR read -r _ window_index window_name _ _ <<< "$line"
-				tmux new-window -k -t "$session_name:$window_index" -n "$window_name"
+				IFS=$SEPARATOR read -r _ window_index window_name window_layout window_active <<< "$line"
+				window_id="$session_name:$window_index"
+				tmux new-window -k -t "$window_id" -n "$window_name"
+				window_layouts["$window_id"]="$window_layout"
+				if [[ "$window_active" == "1" ]]; then
+					active_window="$window_id"
+				fi
 			;;
 			pane*)
 				IFS=$SEPARATOR read -r _ pane_index pane_current_path pane_active window_index command <<< "$line"
@@ -74,17 +85,10 @@ if ! tmux has-session -t "$session_name" 2> /dev/null; then
 			;;
 		esac
 	done
-	while read -r line; do
-		case $line in
-			window*)
-				IFS=$SEPARATOR read -r _ window_index _ window_layout window_active <<< "$line"
-				tmux select-layout -t "$session_name:$window_index" "$window_layout"
-				if [[ "$window_active" == "1" ]]; then
-					tmux select-window -t "$session_name:$window_index"
-				fi
-			;;
-		esac
-	done <<< "$(tail -n+2 < "$session_file")"
+	for window in "${!window_layouts[@]}"; do
+		tmux select-layout -t "$window" "${window_layouts[$window]}"
+	done
+	tmux select-window -t "$active_window"
 	stop_spinner "Session restored"
 fi
 tmux switch-client -t "$session_name"

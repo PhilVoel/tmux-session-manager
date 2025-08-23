@@ -16,6 +16,7 @@ if [[ -e "${NEW_SAVE_FILE}_archived" ]]; then
 	mv "${NEW_SAVE_FILE}_archived" "$NEW_SAVE_FILE"
 fi
 echo "version$S$VERSION" > "$NEW_SAVE_FILE"
+tmux -c pwd >> "$NEW_SAVE_FILE"
 tmux list-windows -F "$WINDOW_FORMAT" >> "$NEW_SAVE_FILE"
 tmux list-panes -s -F "$PANE_FORMAT" | while IFS="$SEPARATOR" read -r line; do
 	pids=$(ps -ao "ppid,pid" \
