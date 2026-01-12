@@ -4,16 +4,11 @@ source common_utils.sh
 
 get_all_sessions() {
 	for file in "$SAVE_DIR"/*_last; do
-		if [[ "$(basename "${file%%_last}")" != "$CURRENT_SESSION" ]]; then
-			basename "${file%%_last}"
-		fi
+		[[ $(basename "${file%%_last}") != "$CURRENT_SESSION" ]] && basename "${file%%_last}"
 	done
-	local -r all_sessions="$(tmux list-sessions -F "#{session_name}")"
-	for session in $all_sessions; do
-		if [[ "$session" != "$CURRENT_SESSION" ]]; then
-			echo "$session"
-		fi
-	done
+	while IFS= read -r session; do
+		[[ $session != "$CURRENT_SESSION" ]] && printf "%s\n" "$session"
+	done < <(tmux list-sessions -F "#{session_name}")
 }
 
 get_archived_sessions() {
